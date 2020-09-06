@@ -18,6 +18,8 @@ public class FindMaxBenchmark {
         for (int i = 0; i < data.length; i++) {
             if (data[i] > result) {
                 result = data[i];
+            } else {
+                result = result;
             }
         }
 
