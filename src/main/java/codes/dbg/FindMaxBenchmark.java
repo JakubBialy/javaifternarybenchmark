@@ -18,6 +18,21 @@ public class FindMaxBenchmark {
         for (int i = 0; i < data.length; i++) {
             if (data[i] > result) {
                 result = data[i];
+            }
+        }
+
+        bh.consume(result);
+    }
+
+    @Benchmark
+    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
+    public static void findMax_if_else(Blackhole bh, Mock mock) {
+        int result = Integer.MIN_VALUE;
+        int[] data = mock.tab;
+
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] > result) {
+                result = data[i];
             } else {
                 result = result;
             }
