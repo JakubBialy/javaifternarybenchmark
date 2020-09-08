@@ -43,6 +43,23 @@ public class FindMaxBenchmark {
 
     @Benchmark
     @CompilerControl(CompilerControl.Mode.DONT_INLINE)
+    public static void findMax_if_else_inversed(Blackhole bh, Mock mock) {
+        int result = Integer.MIN_VALUE;
+        int[] data = mock.tab;
+
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] < result) {
+                result = result;
+            } else {
+                result = data[i];
+            }
+        }
+
+        bh.consume(result);
+    }
+
+    @Benchmark
+    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
     public static void findMax_ternary(Blackhole bh, Mock mock) {
         int result = Integer.MIN_VALUE;
         int[] data = mock.tab;
@@ -56,12 +73,39 @@ public class FindMaxBenchmark {
 
     @Benchmark
     @CompilerControl(CompilerControl.Mode.DONT_INLINE)
+    public static void findMax_ternary_inversed(Blackhole bh, Mock mock) {
+        int result = Integer.MIN_VALUE;
+        int[] data = mock.tab;
+
+        for (int i = 0; i < data.length; i++) {
+            result = data[i] < result ? result : data[i];
+        }
+
+        bh.consume(result);
+    }
+
+    @Benchmark
+    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
     public static void findMax_intrinsicMax(Blackhole bh, Mock mock) {
         int result = Integer.MIN_VALUE;
         int[] data = mock.tab;
 
         for (int i = 0; i < data.length; i++) {
             result = Math.max(data[i], result);
+        }
+
+        bh.consume(result);
+    }
+
+
+    @Benchmark
+    @CompilerControl(CompilerControl.Mode.DONT_INLINE)
+    public static void findMax_intrinsicMax_inversed(Blackhole bh, Mock mock) {
+        int result = Integer.MIN_VALUE;
+        int[] data = mock.tab;
+
+        for (int i = 0; i < data.length; i++) {
+            result = Math.max(result, data[i]);
         }
 
         bh.consume(result);
