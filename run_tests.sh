@@ -10,7 +10,7 @@ $LT_JAVA_12
 $LT_JAVA_13
 $LT_JAVA_14
 $LT_JAVA_15
-$LT_JAVA_16
+#$LT_JAVA_16
 )
 
 timestamp=$(date +"%Y%m%d%_k%M%N")
@@ -26,7 +26,7 @@ do
         printf "Java major version: $curr_java_major_ver\n\n"
         JAVA_HOME=$(echo $item) mvn -Djdk.ver=$curr_java_major_ver clean package
 
-        $item/bin/java -jar ./target/Java_Benchmarks-0.1.0.jar FindMaxBenchmark -jvmArgs -XX:+UseG1GC -bm thrpt -wi 10 -w 10 -r 10 -i 50 -f 2 -rf scsv -rff $outputDir/benchmark_$curr_java_ver.scsv -prof 'perfasm:intelSyntax=true' | tee $outputDir/benchmark_$curr_java_ver.log
+        $item/bin/java -jar ./target/Java_Benchmarks-0.1.0.jar FindMaxBenchmark -jvmArgs -XX:+UseG1GC -bm thrpt -wi 5 -w 10 -r 10 -i 30 -f 2 -rf scsv -rff $outputDir/benchmark_$curr_java_ver.scsv -prof 'perfasm:intelSyntax=true' | tee $outputDir/benchmark_$curr_java_ver.log
 done
 
 python3 ./generate_plot2.py --input-dir $outputDir --output-file plot_$timestamp.png --first-dimen java_version --second-dimen Benchmark --third-dimen Score --output-mode multi_plot --extract-jdk-version --remove-second-dimen-common-prefixes --error-name "Score Error (99.9%)"
